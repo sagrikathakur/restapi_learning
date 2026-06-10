@@ -16,11 +16,14 @@ app.get("/users", (req, res) => {
 app.post('/product', (req, res) => {
   const products = req.body;
   console.log(products);
+  // server response//
   res.status(201).json({
     message: "product created",
     data: products
   })
 })
+
+
 
 app.listen(port, () => {
   console.log(`server is running on port ${port}`)
