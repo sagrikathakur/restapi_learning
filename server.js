@@ -125,7 +125,7 @@ app.put('/bag/:id', async (req, res) => {
 
     // Remove trailing comma and space
     query = query.slice(0, -2);
-    
+
     query += ` WHERE id = $${paramIndex} RETURNING *`;
     values.push(id);
 
