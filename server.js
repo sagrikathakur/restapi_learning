@@ -9,12 +9,11 @@ const port = process.env.PORT;
 
 app.use(express.json());
 
-// post//
+
 app.post('/bag', async (req, res) => {
   try {
     const { name, price } = req.body;
 
-    // Validate request body
     if (!name || price === undefined || price === null) {
       return res.status(400).json({
         message: "Validation error: 'name' and 'price' are required fields.",
