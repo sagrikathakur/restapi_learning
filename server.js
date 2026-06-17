@@ -1,35 +1,51 @@
-import express from "express";
+import express from "express"
 import dotenv from "dotenv";
-import { pool } from './db.js'
+import { pool } from "./db.js";
+
 
 dotenv.config();
 
+// server instance//
 const app = express();
-const port = process.env.PORT;
+const port = process.env.PORT || 3000;
 
+// Middleware//
 app.use(express.json());
 
+// route//
 
-app.post('/bag', async (req, res) => {
+app.get("/", (req, res) => {
+  res.send("server is ")
+})
+
+// create //
+
+app.post('/stones', async (req, res) => {
   try {
-    const { name, price } = req.body;
+    const { stone_name, color, weight_carat, price, origin_country } = req.body;
 
-    if (!name || price === undefined || price === null) {
+    if (!stone_name || !color || !weight_carat || !price || !origin_country) {
       return res.status(400).json({
-        message: "Validation error: 'name' and 'price' are required fields.",
-      });
+        message: "all fields are required"
+      })
     }
 
     const result = await pool.query(
-      `INSERT INTO myproducts(name, price)
-       VALUES($1, $2)
+      `INSERT INTO preciousStone(
+        stone_name,
+        color,
+        weight_carat,
+        price,
+        origin_country
+      )
+       VALUES($1, $2 , $3 , $4 , $5 )
        RETURNING *`,
-      [name, price]
+      [stone_name, color, weight_carat, price, origin_country]
     );
 
     res.status(201).json({
-      message: "Product created",
-      product: result.rows[0],
+      message: "stone created",
+      stone: result.rows[0],
     });
 
   } catch (error) {
@@ -39,10 +55,10 @@ app.post('/bag', async (req, res) => {
   }
 });
 
-// Get all products
-app.get('/bag', async (req, res) => {
+// Get all stones//
+app.get('/stones', async (req, res) => {
   try {
-    const result = await pool.query('SELECT * FROM myproducts ORDER BY id ASC');
+    const result = await pool.query('SELECT * FROM preciousStone ORDER BY id ASC');
     res.status(200).json({
       message: "Products retrieved successfully",
       products: result.rows,
