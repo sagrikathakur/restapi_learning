@@ -23,4 +23,6 @@ app.use("/bag", productRoutes);
 
 app.listen(port, () => {
   console.log(`server is running on port ${port}`);
-});
+});
+
+export default app;
