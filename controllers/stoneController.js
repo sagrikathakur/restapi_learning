@@ -31,10 +31,10 @@ export const createStone = async (req, res) => {
 
 export const getAllStones = async (req, res) => {
   try {
-    const products = await stoneModel.getAllStones();
+    const stones = await stoneModel.getAllStones();
     res.status(200).json({
-      message: "Products retrieved successfully",
-      products,
+      message: "Stones retrieved successfully",
+      stones,
     });
   } catch (error) {
     res.status(500).json({
